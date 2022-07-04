@@ -1,17 +1,13 @@
-// const http = require('http') //commonJs (CJS) sino podria ser ES modules (ESM) que es cuando declaro import http from 'http'por ejemplo
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
+const logger = require("./loggerMiddleware");
 
+app.use(cors());
 app.use(express.json());
 
-app.use((request, response, next) => {
-  console.log(request.method);
-  console.log(request.path);
-  console.log(request.body);
-  console.log("-------------");
-  next();
-});
+app.use(logger);
 
 let notes = [
   {
@@ -33,12 +29,6 @@ let notes = [
     important: true,
   },
 ];
-
-// const app = http.createServer((request, response) => {
-//  // esto es un callback de nodeJs
-//   response.writeHead(200, { "Content-Type": "application/json" });
-//   response.end(JSON.stringify(notes));
-// });
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello Jupiter Word</h1>");
